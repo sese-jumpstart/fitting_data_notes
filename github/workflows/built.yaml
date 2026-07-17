@@ -1,0 +1,51 @@
+name: Compile LaTeX
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-fitting-files-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes texlive-latex-base texlive-latex-recommended
+
+      - name: Compile the LaTeX document
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error notes.tex
+          pdflatex -interaction=nonstopmode -halt-on-error notes.tex
+
+      - name: Remove auxiliary LaTeX files
+        run: |
+          rm -f notes.aux
+          rm -f notes.log
+          rm -f notes.out
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add notes.pdf
+
+          if git diff --cached --quiet; then
+            echo "The generated files have not changed."
+          else
+            git commit -m "Automatically regenerate plot and PDF"
+            git push
+          fi

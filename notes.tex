@@ -66,7 +66,7 @@ Here the entire collection of heights is $x$, and the $i$-th item in the array i
 
 The simplest possible model for this data would be to assert that there really is a single ``true'' height $h$ and that the variations from person to person we see are just random. We need to determine what number we should put in for $h$ in our model.
 
-Whatever $h$ we choose should have the smallest possible difference from the data. To make the math work out better later in the process, let us calculate the total difference between the model and our data with this measure of the difference. (In math, physics and statistics this quantity mysteriously gets called $\chi^2$, that is ``chi squared,'' and in machine learning and AI it gets called the ``cost function,'' so to make the later equations cleaner let's call this quantity $C$.) The difference between the model and data is:
+Whatever $h$ we choose should have the smallest possible difference from the data. To make the math work out better later in the process, let us calculate the total difference between the model and our data by calculating the sum of the squares of the differences. (In math, physics and statistics this quantity mysteriously gets called $\chi^2$, that is ``chi squared,'' and in machine learning and AI it gets called the ``cost function,'' so to make the later equations cleaner let's call this quantity $C$.) This is:
 \begin{equation}\label{eq:fancyCmean}
 C(h) = \sum_{i=0}^{N-1} (x_i - h)^2
 \end{equation}
@@ -121,7 +121,7 @@ y & = & [ & 3.49, & 4.62, & 8.53, & 10.51, & 15.32 & ]
 \end{array}
 \end{equation}
 
-We now assert that our model $y^{model}$ for the price is that there is a constant fixed price for serving the plate to the table, plus a per-item cost for each item on the plate. That, is our model is $y^{model} = mx + b$ where $b$ is the fixed price for serving the place, and $m$ is the per-item cost. We have to select values for $m$ and $b$ in our model.
+We now assert that our model $y^{model}$ for the price is that there is a constant fixed price for serving the plate to the table, plus a per-item cost for each item on the plate. That, is our model is $y^{model} = mx + b$ where $b$ is the fixed price for serving the plate, and $m$ is the per-item cost. We have to select values for $m$ and $b$ in our model.
 
 Just as before, we write out the sum of the squared of the difference between our model and the data. For this case, that is
 \begin{equation}

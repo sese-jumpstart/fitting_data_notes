@@ -169,6 +169,8 @@ Again, this can all be calculated by hand or with a calculator, there is no magi
 
 At the end of this document is a listing for a python program that does all of this. Read it, see how it implements the equations, type it in, and try running it to reproduce Figure~\ref{fig:fit}. Try putting your own different data in for $x$ and $y$ and see what you get.
 
+One note, as an illustration I used a \texttt{for} loop to perform the calculation here. In programming languages like C and rust, this is the right approach. In python, this is actually a slower way to perform this calculation, but for this case I want to show how the calculation is actually performed.
+
 \section{Further Work}
 
 Garcia's book ``Numerical Methods for Physics'' has an excellent section about fitting models to data. The documentation for \texttt{scipy} also has great information. In addition, \texttt{scikit-learn} has a powerful and usable collection of machine learning/neural network tools. On your own, look into general linear fitting (Garcia's book has a great derivation), non-linear fitting (the function \texttt{curve\_fit} in \texttt{scipy} is a great tool for this and has good documentation, or \texttt{emcee} has a much fancier approach), and neural networks (start by going to \texttt{playground.tensorflow.org} and interacting with it, then later read up on \texttt{scikit-learn} neural network regression and classification and try examples).
@@ -183,11 +185,20 @@ x = np.array([1,2,4,5,7])
 y = np.array([3.49,4.62,8.53,10.51,15.32])
 
 # calculate the sum quantities
+# first find the length of the array
 N = len(x)
-Sx = np.sum(x)
-Sy = np.sum(y)
-Sxx = np.sum(x*x)
-Sxy = np.sum(x*y)
+# then initialize the sum quantity variables to zero
+Sx = 0
+Sy = 0
+Sxx = 0
+Sxy = 0
+# then loop over all array elements
+for i in range(N):
+    # and perform the sum
+    Sx = Sx + x[i]
+    Sy = Sy + y[i]
+    Sxx = Sxx + x[i]*x[i]
+    Sxy = Sxy + x[i]*y[i]
 
 # calculate the best-fit slope and offsets
 m = (N*Sxy  - Sy*Sx)  / (N*Sxx - Sx**2)
